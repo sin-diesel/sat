@@ -1,4 +1,5 @@
 
+#include <stdexcept>
 #include <gtest/gtest.h>
 
 import cnf;
@@ -12,6 +13,13 @@ TEST(CNF, Init) {
 TEST(CNF, Dump) {
   CNF cnf({{1, 2, 3}, {1, 2, 3}});
   cnf.dump();
+}
+
+TEST(CNF, InvalidInput) {
+  try {
+    CNF cnf({{1, 2, 3}, {1, 2, 3}});
+  }
+  catch (std::runtime_error& error) {}
 }
 
 int main(int argc, char** argv) {
