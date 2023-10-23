@@ -10,7 +10,7 @@ add_library(sat)
 target_sources(sat
     PUBLIC
         FILE_SET CXX_MODULES FILES
-        sat.cpp
+        src/sat.cpp
 )
 
 add_executable(run main.cpp)
