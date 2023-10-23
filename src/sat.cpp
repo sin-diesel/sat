@@ -9,6 +9,8 @@ using literal_t = int64_t;
 using clause_t = std::vector<literal_t>;
 using cnf_t = std::vector<clause_t>;
 
+namespace sat {
+
 export class CNF {
   cnf_t m_value;
 public:
@@ -32,3 +34,5 @@ void CNF::dump() const {
   }
   std::cout << std::endl;
 }
+
+} // end namspace sat

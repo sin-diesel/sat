@@ -3,6 +3,8 @@
 
 import sat;
 
+using sat::CNF;
+
 TEST(CNF, Init) {
   CNF cnf({{1, 1, 1}, {1, 1, 1}});
 }
