@@ -1,28 +1,21 @@
 
-cmake_minimum_required(VERSION 3.27.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.28.0 FATAL_ERROR)
 
-
-set(CMAKE_CXX_COMPILER clang++)
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API aa1f7df0-828a-4fcd-9afc-2dc80491aca7)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+set(CMAKE_CXX_STANDARD 20)
 
 project(sat_solver CXX)
 
-add_executable(sats)
-target_sources(sats
+add_library(sat)
+target_sources(sat
     PUBLIC
-    main.cpp
-)
-target_sources(sats
-    PUBLIC
-        FILE_SET cpp_modules TYPE CXX_MODULES FILES
-        src/sat.cppm
+        FILE_SET CXX_MODULES FILES
+        sat.cpp
 )
 
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT sats)
+add_executable(run main.cpp)
+target_link_libraries(run sat)
+
 
 # set(TESTS_DIR test)
 

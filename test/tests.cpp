@@ -1,5 +1,5 @@
 
-#include <gtest/gtest.h>
+import sat;
 
 int main() {
   return 0;
