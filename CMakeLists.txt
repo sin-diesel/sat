@@ -9,18 +9,18 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
  
-add_library(sat)
-target_sources(sat
+add_library(cnf)
+target_sources(cnf
     PUBLIC
         FILE_SET CXX_MODULES FILES
-        src/sat.cpp
+        src/cnf.cpp
 )
 
 add_executable(sat_solver main.cpp)
-target_link_libraries(sat_solver PRIVATE sat)
+target_link_libraries(sat_solver PRIVATE cnf)
 
 add_executable(test test/tests.cpp)
-target_link_libraries(test PUBLIC sat)
+target_link_libraries(test PUBLIC cnf)
 target_link_libraries(test PRIVATE ${GTEST_LIBRARIES} pthread)
 
 

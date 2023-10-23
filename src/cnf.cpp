@@ -3,13 +3,13 @@ module;
 #include <iostream>
 #include <vector>
 
-export module sat;
+export module cnf;
 
 using literal_t = int64_t;
 using clause_t = std::vector<literal_t>;
 using cnf_t = std::vector<clause_t>;
 
-namespace sat {
+namespace cnf {
 
 export class CNF {
   cnf_t m_value;
@@ -19,6 +19,7 @@ public:
   }
   void dump() const;
 };
+
 
 void CNF::dump() const {
   for (const auto &clause: m_value) {
@@ -35,4 +36,4 @@ void CNF::dump() const {
   std::cout << std::endl;
 }
 
-} // end namspace sat
+} // end namspace cnf

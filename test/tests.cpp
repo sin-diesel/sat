@@ -1,16 +1,16 @@
 
 #include <gtest/gtest.h>
 
-import sat;
+import cnf;
 
-using sat::CNF;
+using cnf::CNF;
 
 TEST(CNF, Init) {
-  CNF cnf({{1, 1, 1}, {1, 1, 1}});
+  CNF cnf({{1, 2, 3}, {1, 2, 3}});
 }
 
 TEST(CNF, Dump) {
-  CNF cnf({{1, 1, 1}, {1, 1, 1}});
+  CNF cnf({{1, 2, 3}, {1, 2, 3}});
   cnf.dump();
 }
 
