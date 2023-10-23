@@ -1,11 +1,14 @@
 
 cmake_minimum_required(VERSION 3.28.0 FATAL_ERROR)
 
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_STANDARD 20)
-
 project(sat_solver CXX)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+ 
 add_library(sat)
 target_sources(sat
     PUBLIC
@@ -13,8 +16,12 @@ target_sources(sat
         src/sat.cpp
 )
 
-add_executable(run main.cpp)
-target_link_libraries(run sat)
+add_executable(sat_solver main.cpp)
+target_link_libraries(sat_solver PRIVATE sat)
+
+add_executable(test test/tests.cpp)
+target_link_libraries(test PUBLIC sat)
+target_link_libraries(test PRIVATE ${GTEST_LIBRARIES} pthread)
 
 
 # set(TESTS_DIR test)

@@ -20,9 +20,15 @@ public:
 
 void CNF::dump() const {
   for (const auto &clause: m_value) {
-    std::cout << "(";
+    std::cout << "( ";
     for (const auto &literal: clause) {
-      std::cout << literal << ",";
+      if (&literal != &clause[0]) {
+        std::cout << "|" << literal;
+      } else {
+        std::cout << literal;
+      }
     }
+    std::cout << " )";
   }
+  std::cout << std::endl;
 }
