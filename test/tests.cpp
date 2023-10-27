@@ -17,7 +17,7 @@ TEST(CNF, Dump) {
 
 TEST(CNF, InvalidInput) {
   try {
-    CNF cnf({{1, 2, 3}, {1, 2, 3}});
+    CNF cnf({{1, 2, 3, 4}, {1, 2, 3}});
   }
   catch (std::runtime_error& error) {}
 }

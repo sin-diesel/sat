@@ -12,9 +12,9 @@ using literal_t = int64_t;
 using clause_t = std::vector<literal_t>;
 using cnf_t = std::vector<clause_t>;
 
-namespace cnf {
+constexpr int clause_size = 3;
 
-const std::set<literal_t> allowed_literals({1, 2, 3, -1, -2, -3});
+namespace cnf {
 
 bool valid(const cnf_t cnf);
 
@@ -32,11 +32,9 @@ public:
 
 bool valid(cnf_t cnf) {
   for (const auto &clause: cnf) {
-    for (const auto &literal: clause) {
-      if (!allowed_literals.contains(literal)) {
-        std::cerr << std::format("ERROR: detected invalid literal {}.", literal) << std::endl;
-        return false;
-      }
+    if (clause.size() != clause_size) {
+      std::cerr << std::format("ERROR: clause does not contain exactly {} elements.", clause_size) << std::endl;
+      return false;
     }
   }
   return true;
