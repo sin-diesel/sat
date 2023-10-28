@@ -30,7 +30,7 @@ public:
     for (const auto &clause: m_value) {
       for (const auto &literal: clause) {
         if (!m_literal_values.contains(literal)) {
-          m_literal_values.insert(std::make_pair<literal, false>);
+          m_literal_values.insert({literal, false});
         }
       }
     }
@@ -64,10 +64,11 @@ void CNF::dump() const {
   std::cout << std::endl;
 }
 
-} // end namspace cnf
-
 void CNF::dumpValues() const {
   for (const auto &it: m_literal_values) {
     std::cout << it.first << ": " << it.second << std::endl;
   }
 }
+
+} // end namspace cnf
+
