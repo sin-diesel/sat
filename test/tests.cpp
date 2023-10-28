@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 
 import cnf;
+import dpll;
 
 using sat::CNF;
 
@@ -20,6 +21,11 @@ TEST(CNF, InvalidInput) {
     CNF cnf({{1, 2, 3, 4}, {1, 2, 3}});
   }
   catch (std::runtime_error& error) {}
+}
+
+TEST(DPLL, DPLLSolve) {
+  CNF cnf({{1, 2, 3}, {-1, 2, 4}});
+  solve(cnf);
 }
 
 int main(int argc, char** argv) {
