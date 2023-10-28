@@ -66,7 +66,7 @@ void CNF::dump() const {
 
 void CNF::dumpValues() const {
   for (const auto &it: m_literal_values) {
-    std::cout << it.first << ": " << it.second << std::endl;
+    std::cout << it.first << ": " << std::boolalpha << it.second << std::endl;
   }
 }
 
