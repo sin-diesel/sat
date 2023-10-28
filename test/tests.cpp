@@ -4,7 +4,7 @@
 
 import cnf;
 
-using cnf::CNF;
+using sat::CNF;
 
 TEST(CNF, Init) {
   CNF cnf({{1, 2, 3}, {1, 2, 3}});
@@ -13,6 +13,11 @@ TEST(CNF, Init) {
 TEST(CNF, Dump) {
   CNF cnf({{1, 2, 3}, {1, 2, 3}});
   cnf.dump();
+}
+
+TEST(CNF, DumpValues) {
+  CNF cnf({{1, 2, 3}, {1, 2, 3}});
+  cnf.dumpValues();
 }
 
 TEST(CNF, InvalidInput) {
