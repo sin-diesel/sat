@@ -15,11 +15,6 @@ TEST(CNF, Dump) {
   cnf.dump();
 }
 
-TEST(CNF, DumpValues) {
-  CNF cnf({{1, 2, 3}, {1, 2, 3}});
-  cnf.dumpValues();
-}
-
 TEST(CNF, InvalidInput) {
   try {
     CNF cnf({{1, 2, 3, 4}, {1, 2, 3}});
