@@ -2,7 +2,6 @@ module;
 
 #include <iostream>
 #include <vector>
-#include <set>
 #include <format>
 #include <stdexcept>
 #include <unordered_map>
@@ -15,9 +14,9 @@ export enum class state {
   UNASSIGNED = 3
 };
 
-using literal_t = int64_t;
-using clause_t = std::unordered_map<literal_t, state>;
-using cnf_t = std::vector<std::vector<literal_t>>;
+export using literal_t = int64_t;
+export using clause_t = std::unordered_map<literal_t, state>;
+export using cnf_t = std::vector<std::vector<literal_t>>;
 
 export constexpr int default_clause_size = 3;
 
@@ -41,7 +40,7 @@ public:
   void set(literal_t literal, state new_state) {
     for (auto &clause: m_clauses) {
       if (clause.contains(literal)) {
-        clause.insert_or_assign(literal, new_state);
+        clause.emplace(literal, new_state);
       }
     }
   }
@@ -56,6 +55,10 @@ public:
     }
     throw std::runtime_error("Could not select literal.");
   }
+
+  std::vector<clause_t>::iterator begin() { return m_clauses.begin(); };
+  std::vector<clause_t>::iterator end() { return m_clauses.end(); };
+
   void dump() const;
 };
 

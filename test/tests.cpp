@@ -23,6 +23,12 @@ TEST(CNF, InvalidInput) {
   catch (std::runtime_error& error) {}
 }
 
+TEST(CNF, CNFIterator) {
+  CNF cnf({{1, 2, 3}, {-1, -2, 3}});
+  for (auto &clause: cnf) {
+  }
+}
+
 TEST(DPLL, DPLLSolve) {
    CNF cnf({{1, 2, 3}, {-1, 2, 3}});
    solve(cnf);
