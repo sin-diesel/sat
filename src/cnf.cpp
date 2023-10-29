@@ -9,7 +9,7 @@ module;
 
 export module cnf;
 
-enum class state {
+export enum class state {
   FALSE = 0,
   TRUE = 1,
   UNASSIGNED = 3
@@ -38,12 +38,13 @@ export class CNF {
   std::vector<literal_t> m_literals;
 public:
   CNF(cnf_t cnf);
-  // void set(literal_t literal, bool value) {
-  //   if (!m_clauses.contains(literal)) {
-  //     throw std::runtime_error("Attempted to set nonexistent literal.");
-  //   }
-  //   m_literal_values.insert_or_assign(literal, value);
-  // }
+  void set(literal_t literal, state new_state) {
+    for (auto &clause: m_clauses) {
+      if (clause.contains(literal)) {
+        clause.insert_or_assign(literal, new_state);
+      }
+    }
+  }
   // TODO: pass literal selection function as parameter
   literal_t select() {
     for (auto &clause: m_clauses) {
@@ -53,6 +54,7 @@ public:
         }
       }
     }
+    throw std::runtime_error("Could not select literal.");
   }
   void dump() const;
 };
