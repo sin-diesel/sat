@@ -2,26 +2,31 @@ module;
 
 #include <iostream>
 #include <vector>
+#include <set>
 #include <format>
 #include <stdexcept>
 #include <unordered_map>
 
 export module cnf;
 
-using literal_t = int64_t;
-using clause_t = std::vector<literal_t>;
-using cnf_t = std::vector<clause_t>;
+enum class state {
+  FALSE = 0,
+  TRUE = 1,
+  UNASSIGNED = 3
+};
 
-export constexpr int clause_size = 3;
+using literal_t = int64_t;
+using clause_t = std::unordered_map<literal_t, state>;
+using cnf_t = std::vector<std::vector<literal_t>>;
+
+export constexpr int default_clause_size = 3;
 
 namespace sat {
 
-bool valid(const cnf_t cnf);
-
-bool valid(cnf_t cnf) {
+bool valid(const std::vector<std::vector<literal_t>> cnf) {
   for (const auto &clause: cnf) {
-    if (clause.size() != clause_size) {
-      std::cerr << std::format("ERROR: clause does not contain exactly {} elements.", clause_size) << std::endl;
+    if (clause.size() != default_clause_size) {
+      std::cerr << std::format("ERROR: clause does not contain exactly {} elements.", default_clause_size) << std::endl;
       return false;
     }
   }
@@ -29,22 +34,20 @@ bool valid(cnf_t cnf) {
 }
 
 export class CNF {
-  cnf_t m_value;
-  std::unordered_map<literal_t, bool> m_literal_values;
-  std::vector<literal_t> m_unset;
+  std::vector<clause_t> m_clauses;
 public:
   CNF(cnf_t cnf);
-  void set(literal_t literal, bool value) {
-    if (!m_literal_values.contains(literal)) {
-      throw std::runtime_error("Attempted to set nonexistent literal.");
-    }
-    m_literal_values.emplace(literal, value);
-  }
-  literal_t choose() {
-    auto literal = m_unset.back();
-    m_unset.pop_back();
-    return literal;
-  }
+  // void set(literal_t literal, bool value) {
+  //   if (!m_clauses.contains(literal)) {
+  //     throw std::runtime_error("Attempted to set nonexistent literal.");
+  //   }
+  //   m_literal_values.insert_or_assign(literal, value);
+  // }
+  // literal_t choose() {
+  //   auto literal = m_unset.back();
+  //   m_unset.pop_back();
+  //   return literal;
+  // }
   void dump() const;
 };
 
@@ -52,33 +55,33 @@ CNF::CNF(cnf_t cnf) {
   if (!valid(cnf)) {
     throw std::runtime_error("Invalid input.");
   }
-  m_value = cnf;
-  for (const auto &clause: m_value) {
-    for (const auto &literal: clause) {
-      if (!m_literal_values.contains(literal)) {
-        m_literal_values.insert({literal, false});
-        m_unset.push_back(literal);
+  for (std::size_t idx = 0; idx < cnf.size(); ++idx) {
+    m_clauses.emplace_back();
+    for (const auto &literal: cnf[idx]) {
+      if (m_clauses[idx].contains(literal)) {
+        throw std::runtime_error("Clause contains duplicate literals.");
+      } else {
+        m_clauses[idx].insert({literal, state::UNASSIGNED});
       }
     }
+
   }
 }
 
 void CNF::dump() const {
-  for (const auto &clause: m_value) {
-    std::cout << "(";
-    for (const auto &literal: clause) {
-      if (&literal != &clause[0]) {
-        std::cout << "|" << literal;
-      } else {
-        std::cout << literal;
-      }
+  std::cout << "{";
+  for (const auto &clause: m_clauses) {
+    std::cout << "{";
+    for (auto it = clause.begin(), end = clause.end(); it != end; ++it) {
+        if (std::next(it) != clause.end()) {
+          std::cout << (*it).first << "|";
+        } else {
+          std::cout << (*it).first;
+        }
     }
-    std::cout << ") ";
+    std::cout << "}";
   }
-  std::cout << std::endl;
-  for (const auto &it: m_literal_values) {
-    std::cout << it.first << ": " << std::boolalpha << it.second << std::endl;
-  }
+  std::cout << "}" << std::endl;
 }
 
 } // end namspace cnf

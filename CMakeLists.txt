@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.28.0 FATAL_ERROR)
 
 set(CMAKE_CXX_COMPILER clang++)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 project(sat_solver CXX)

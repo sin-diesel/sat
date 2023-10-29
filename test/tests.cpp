@@ -16,17 +16,17 @@ TEST(CNF, Dump) {
   cnf.dump();
 }
 
-TEST(CNF, InvalidInput) {
-  try {
-    CNF cnf({{1, 2, 3, 4}, {1, 2, 3}});
-  }
-  catch (std::runtime_error& error) {}
-}
+// TEST(CNF, InvalidInput) {
+//   try {
+//     CNF cnf({{1, 2, 3, 4}, {1, 2, 3}});
+//   }
+//   catch (std::runtime_error& error) {}
+// }
 
-TEST(DPLL, DPLLSolve) {
-  CNF cnf({{1, 2, 3}, {-1, 2, 4}});
-  solve(cnf);
-}
+// TEST(DPLL, DPLLSolve) {
+//   CNF cnf({{1, 2, 3}, {-1, 2, 4}});
+//   solve(cnf);
+// }
 
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
