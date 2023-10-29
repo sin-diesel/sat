@@ -35,6 +35,7 @@ bool valid(const std::vector<std::vector<literal_t>> cnf) {
 
 export class CNF {
   std::vector<clause_t> m_clauses;
+  std::vector<literal_t> m_literals;
 public:
   CNF(cnf_t cnf);
   // void set(literal_t literal, bool value) {
@@ -43,11 +44,16 @@ public:
   //   }
   //   m_literal_values.insert_or_assign(literal, value);
   // }
-  // literal_t choose() {
-  //   auto literal = m_unset.back();
-  //   m_unset.pop_back();
-  //   return literal;
-  // }
+  // TODO: pass literal selection function as parameter
+  literal_t select() {
+    for (auto &clause: m_clauses) {
+      for (auto &kv: clause) {
+        if (kv.second == state::UNASSIGNED) {
+           return kv.first;
+        }
+      }
+    }
+  }
   void dump() const;
 };
 
@@ -62,6 +68,7 @@ CNF::CNF(cnf_t cnf) {
         throw std::runtime_error("Clause contains duplicate literals.");
       } else {
         m_clauses[idx].insert({literal, state::UNASSIGNED});
+        m_literals.push_back(literal);
       }
     }
 
