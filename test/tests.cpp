@@ -29,7 +29,14 @@ TEST(CNF, CNFIterator) {
   }
 }
 
-TEST(DPLL, DPLLSolve) {
+TEST(DPLL, UnitClauseCheck) {
+  CNF cnf({{1, 2, 3}, {-1, -2, 3}});
+  cnf.set(1, state::TRUE);
+  cnf.set(2, state::TRUE);
+  ASSERT_TRUE(is_clause_unit(cnf[0]); 
+}
+
+TEST(DPLL, Solve) {
    CNF cnf({{1, 2, 3}, {-1, 2, 3}});
    solve(cnf);
 }
