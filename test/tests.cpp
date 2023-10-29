@@ -24,7 +24,7 @@ TEST(CNF, InvalidInput) {
 }
 
 TEST(DPLL, DPLLSolve) {
-   CNF cnf({{1, 2, 3}, {-1, 2, 4}});
+   CNF cnf({{1, 2, 3}, {-1, 2, 3}});
    solve(cnf);
 }
 

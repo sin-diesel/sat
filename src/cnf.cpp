@@ -82,10 +82,10 @@ void CNF::dump() const {
   for (const auto &clause: m_clauses) {
     std::cout << "{";
     for (auto it = clause.begin(), end = clause.end(); it != end; ++it) {
+        std::cout << (*it).first << " ";
+        std::cout << "state: " << static_cast<int>((*it).second);
         if (std::next(it) != clause.end()) {
-          std::cout << (*it).first << "|";
-        } else {
-          std::cout << (*it).first;
+          std::cout << "|";
         }
     }
     std::cout << "}";
