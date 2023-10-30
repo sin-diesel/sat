@@ -25,7 +25,7 @@ TEST(CNF, InvalidInput) {
 
 TEST(CNF, CNFIterator) {
   CNF cnf({{1, 2, 3}, {-1, -2, 3}});
-  for (auto &clause: cnf) {
+  for (auto &clause: cnf.clauses) {
   }
 }
 
@@ -34,7 +34,7 @@ TEST(DPLL, UnitClauseCheck) {
   cnf.set(1, state::TRUE);
   cnf.set(2, state::TRUE);
   cnf.set(3, state::UNASSIGNED);
-  ASSERT_TRUE(sat::is_clause_unit(cnf.getClause(0)));
+  ASSERT_TRUE(sat::is_clause_unit(cnf.clauses[0]));
 }
 
 TEST(DPLL, Solve) {

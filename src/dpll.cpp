@@ -25,7 +25,7 @@ export bool is_clause_unit(clause_t &clause) {
 }
 
 void unit_propagate(CNF& cnf) {
-  for (auto it = cnf.begin(), end = cnf.end(); it != end; ++it) {
+  for (auto it = cnf.clauses.begin(), end = cnf.clauses.end(); it != end; ++it) {
     auto clause = *it;
     if (is_clause_unit(clause)) {
       for (auto &literal: clause) {
@@ -35,6 +35,7 @@ void unit_propagate(CNF& cnf) {
           cnf.set(literal.first, state::TRUE);
         }
       }
+      it = cnf.clauses.erase(it);
     }
   }
 }
