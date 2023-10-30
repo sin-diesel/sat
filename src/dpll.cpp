@@ -14,14 +14,14 @@ void select_literal(CNF& cnf) {
   cnf.set(selected_literal, state::TRUE);
 }
 
-bool is_clause_unit(clause_t &clause) {
+export bool is_clause_unit(clause_t &clause) {
   unsigned unassigned_literals = 0;
   for (const auto &literal: clause) {
-    if (literal.second != state::UNASSIGNED) {
+    if (literal.second == state::UNASSIGNED) {
       unassigned_literals += 1;
     }
   }
-  return unassigned_literals == 1: true ? false;
+  return (unassigned_literals == 1) ? true : false;
 }
 
 void unit_propagate(CNF& cnf) {

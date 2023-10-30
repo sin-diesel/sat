@@ -40,7 +40,7 @@ public:
   void set(literal_t literal, state new_state) {
     for (auto &clause: m_clauses) {
       if (clause.contains(literal)) {
-        clause.emplace(literal, new_state);
+        clause.insert_or_assign(literal, new_state);
       }
     }
   }
@@ -56,6 +56,8 @@ public:
     throw std::runtime_error("Could not select literal.");
   }
 
+  clause_t& getClause(std::size_t idx) { return m_clauses[idx]; };
+
   std::vector<clause_t>::iterator begin() { return m_clauses.begin(); };
   std::vector<clause_t>::iterator end() { return m_clauses.end(); };
 
@@ -69,11 +71,12 @@ CNF::CNF(cnf_t cnf) {
   for (std::size_t idx = 0; idx < cnf.size(); ++idx) {
     m_clauses.emplace_back();
     for (const auto &literal: cnf[idx]) {
-      if (m_clauses[idx].contains(literal)) {
+      auto abs_literal = std::abs(literal);
+      if (m_clauses[idx].contains(abs_literal)) {
         throw std::runtime_error("Clause contains duplicate literals.");
       } else {
-        m_clauses[idx].insert({literal, state::UNASSIGNED});
-        m_literals.push_back(literal);
+        m_clauses[idx].insert({abs_literal, state::UNASSIGNED});
+        m_literals.push_back(abs_literal);
       }
     }
 
