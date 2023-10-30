@@ -27,6 +27,15 @@ export bool is_clause_unit(clause_t &clause) {
 void unit_propagate(CNF& cnf) {
   for (auto it = cnf.begin(), end = cnf.end(); it != end; ++it) {
     auto clause = *it;
+    if (is_clause_unit(clause)) {
+      for (auto &literal: clause) {
+        if (is_negated(literal.first)) {
+          cnf.set(literal.first, state::FALSE);
+        } else {
+          cnf.set(literal.first, state::TRUE);
+        }
+      }
+    }
   }
 }
 
@@ -37,6 +46,7 @@ export std::optional<std::vector<bool>> solve(CNF& cnf) {
   select_literal(cnf);
   // Setup 2: unit propagation
   unit_propagate(cnf);
+  cnf.dump();
 
   return std::nullopt;
 }

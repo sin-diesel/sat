@@ -32,6 +32,10 @@ bool valid(const std::vector<std::vector<literal_t>> cnf) {
   return true;
 }
 
+export bool is_negated(literal_t literal_value) {
+  return (literal_value < 0) ? true : false;
+}
+
 export class CNF {
   std::vector<clause_t> m_clauses;
   std::vector<literal_t> m_literals;
