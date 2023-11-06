@@ -29,22 +29,22 @@ TEST(CNF, CNFIterator) {
   }
 }
 
-// TEST(DPLL, UnitClauseCheck) {
-//   CNF cnf({{1, 2, 3}, {-1, -2, 3}});
-//   cnf.set(1, state::TRUE);
-//   cnf.set(2, state::TRUE);
-//   cnf.set(3, state::UNASSIGNED);
-//   ASSERT_TRUE(sat::is_clause_unit(cnf.clauses[0]));
-// }
+TEST(DPLL, UnitClauseCheck) {
+  CNF cnf({{1, 2, 3}, {-1, -2, 3}});
+  cnf.set(1, state::TRUE);
+  cnf.set(2, state::TRUE);
+  cnf.set(3, state::UNASSIGNED);
+  ASSERT_TRUE(sat::is_clause_unit(cnf.get_clause(0)));
+}
 
-// TEST(DPLL, UnitPropagate) {
-//   CNF cnf({{1, 2, 3}, {-1, -2, 3}});
-//   cnf.set(1, state::TRUE);
-//   cnf.set(2, state::TRUE);
-//   cnf.set(3, state::UNASSIGNED);
-//   unit_propagate(cnf);
-//   ASSERT_EQ(cnf.clauses.size(), 0);
-// }
+TEST(DPLL, UnitPropagate) {
+  CNF cnf({{1, 2, 3}, {-1, -2, 3}});
+  cnf.set(1, state::TRUE);
+  cnf.set(2, state::TRUE);
+  cnf.set(3, state::UNASSIGNED);
+  unit_propagate(cnf);
+  ASSERT_EQ(cnf.clauses.size(), 0);
+}
 
 // TEST(DPLL, Solve) {
 //    CNF cnf({{1, 2, 3}, {-1, 2, 3}});
