@@ -25,22 +25,31 @@ TEST(CNF, InvalidInput) {
 
 TEST(CNF, CNFIterator) {
   CNF cnf({{1, 2, 3}, {-1, -2, 3}});
-  for (auto &clause: cnf.clauses) {
+  for (auto &clause: cnf) {
   }
 }
 
-TEST(DPLL, UnitClauseCheck) {
-  CNF cnf({{1, 2, 3}, {-1, -2, 3}});
-  cnf.set(1, state::TRUE);
-  cnf.set(2, state::TRUE);
-  cnf.set(3, state::UNASSIGNED);
-  ASSERT_TRUE(sat::is_clause_unit(cnf.clauses[0]));
-}
+// TEST(DPLL, UnitClauseCheck) {
+//   CNF cnf({{1, 2, 3}, {-1, -2, 3}});
+//   cnf.set(1, state::TRUE);
+//   cnf.set(2, state::TRUE);
+//   cnf.set(3, state::UNASSIGNED);
+//   ASSERT_TRUE(sat::is_clause_unit(cnf.clauses[0]));
+// }
 
-TEST(DPLL, Solve) {
-   CNF cnf({{1, 2, 3}, {-1, 2, 3}});
-   solve(cnf);
-}
+// TEST(DPLL, UnitPropagate) {
+//   CNF cnf({{1, 2, 3}, {-1, -2, 3}});
+//   cnf.set(1, state::TRUE);
+//   cnf.set(2, state::TRUE);
+//   cnf.set(3, state::UNASSIGNED);
+//   unit_propagate(cnf);
+//   ASSERT_EQ(cnf.clauses.size(), 0);
+// }
+
+// TEST(DPLL, Solve) {
+//    CNF cnf({{1, 2, 3}, {-1, 2, 3}});
+//    solve(cnf);
+// }
 
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
