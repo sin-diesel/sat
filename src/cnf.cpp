@@ -41,6 +41,7 @@ export class CNF {
   std::vector<clause_t> clauses_;
 public:
   CNF(cnf_t cnf);
+
   void set(variable_id_t variable_id, state new_state) {
     for (auto &clause: clauses_) {
       if (!clause.contains(variable_id)) {
@@ -50,20 +51,26 @@ public:
       clause.insert_or_assign(variable_id, std::make_pair(changed_variable.first, new_state));
     }
   }
-  clause_t get_clause(std::size_t idx) { return clauses_[idx]; };
+
+  clause_t getClause(std::size_t idx) { return clauses_[idx]; };
   // TODO: pass literal selection function as parameter
-  // literal_t select() {
-  //   for (auto &clause: clauses) {
-  //     for (auto &literal: clause) {
-  //       if (literal.second == state::UNASSIGNED) {
-  //          return literal.first;
-  //       }
-  //     }
-  //   }
-  //   throw std::runtime_error("Could not select literal.");
-  // }
+  variable_id_t select() {
+    for (auto &clause: clauses_) {
+      for (auto &literal: clause) {
+        if (literal.second.second == state::UNASSIGNED) {
+          return literal.first;
+        }
+      }
+    }
+    throw std::runtime_error("Could not select literal.");
+  }
+
+  std::size_t size() { return clauses_.size(); };
+
   std::vector<clause_t>::iterator begin() { return clauses_.begin(); }
+
   std::vector<clause_t>::iterator end() { return clauses_.end(); }
+
   void dump() const;
 };
 

@@ -34,7 +34,7 @@ TEST(DPLL, UnitClauseCheck) {
   cnf.set(1, state::TRUE);
   cnf.set(2, state::TRUE);
   cnf.set(3, state::UNASSIGNED);
-  ASSERT_TRUE(sat::is_clause_unit(cnf.get_clause(0)));
+  ASSERT_EQ(sat::get_propagated_literal(cnf.getClause(0)), 3);
 }
 
 TEST(DPLL, UnitPropagate) {
@@ -43,7 +43,7 @@ TEST(DPLL, UnitPropagate) {
   cnf.set(2, state::TRUE);
   cnf.set(3, state::UNASSIGNED);
   unit_propagate(cnf);
-  ASSERT_EQ(cnf.clauses.size(), 0);
+  ASSERT_EQ(cnf.size(), 0);
 }
 
 TEST(DPLL, Solve) {
