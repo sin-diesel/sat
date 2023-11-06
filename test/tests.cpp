@@ -46,10 +46,10 @@ TEST(DPLL, UnitPropagate) {
   ASSERT_EQ(cnf.clauses.size(), 0);
 }
 
-// TEST(DPLL, Solve) {
-//    CNF cnf({{1, 2, 3}, {-1, 2, 3}});
-//    solve(cnf);
-// }
+TEST(DPLL, Solve) {
+  CNF cnf({{1, 2, 3}, {-1, 2, 3}});
+  solve(cnf);
+}
 
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
