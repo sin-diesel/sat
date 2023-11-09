@@ -41,6 +41,7 @@ export void unit_propagate(CNF& cnf) {
         }
       }
     }
+    it = cnf.eraseClause(it);
   }
 }
 

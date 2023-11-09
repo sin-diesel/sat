@@ -65,6 +65,10 @@ public:
     throw std::runtime_error("Could not select literal.");
   }
 
+  std::vector<clause_t>::iterator eraseClause(std::vector<clause_t>::iterator it) {
+    return clauses_.erase(it);
+  }
+
   std::size_t size() { return clauses_.size(); };
 
   std::vector<clause_t>::iterator begin() { return clauses_.begin(); }
