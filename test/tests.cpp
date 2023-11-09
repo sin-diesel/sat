@@ -46,6 +46,13 @@ TEST(DPLL, UnitPropagate) {
   ASSERT_EQ(cnf.size(), 0);
 }
 
+TEST(DPLL, PolarLiteral) {
+  CNF cnf({{1, 2, 3}, {-1, -2, 3}});
+  ASSERT_TRUE(is_literal_polar(cnf, 3));
+  ASSERT_FALSE(is_literal_polar(cnf, 1));
+  ASSERT_FALSE(is_literal_polar(cnf, 2));
+}
+
 TEST(DPLL, Solve) {
   CNF cnf({{1, 2, 3}, {-1, 2, 3}});
   solve(cnf);

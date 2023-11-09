@@ -2,6 +2,7 @@ module;
 
 #include <optional>
 #include <vector>
+#include <cstdint>
 
 import cnf;
 
@@ -45,13 +46,36 @@ export void unit_propagate(CNF& cnf) {
   }
 }
 
+export bool is_literal_polar(CNF& cnf, variable_id_t id) {
+  // If literal has the same polarity in every clause,
+  // multiplication of all literal values will be positive number.
+  // Otherwise, negative.
+  int multiplication_product = 1;
+  for (auto it = cnf.begin(), end = cnf.end(); it != end; ++it) {
+    clause_t current_clause = *it;
+    if (current_clause.contains(id)) {
+      // Normalize
+      multiplication_product *= current_clause.at(id).first / id;
+    }
+  }
+  return multiplication_product > 0;
+}
+
+export void eliminate_pure_literals(CNF& cnf) {
+  for (auto it = cnf.begin(), end = cnf.end(); it != end; ++it) {
+  
+  }
+}
+
 
 // Solving using basic DPLL algorithm.
 export std::optional<std::vector<bool>> solve(CNF& cnf) {
   // Step 1: choose random literal and assign true to it.
   select_literal(cnf);
-  // Setup 2: unit propagation
+  // Step 2: unit propagation
   unit_propagate(cnf);
+  // Step 3: pure literal elimination
+  eliminate_pure_literals(cnf);
   cnf.dump();
   return std::nullopt;
 }
