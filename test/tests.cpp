@@ -53,8 +53,20 @@ TEST(DPLL, PolarLiteral) {
   ASSERT_FALSE(is_literal_polar(cnf, 2));
 }
 
+TEST(DPLL, PureLiteralElimination) {
+  CNF cnf({{1, 2, 3}, {1, -2, -3}});
+  eliminate_pure_literals(cnf);
+  cnf.dump();
+}
+
+TEST(DPLL, PureLiteralEliminationIncomplete) {
+  CNF cnf({{1, 2, 3}, {1, -2, -3}, {4, 2, 3}});
+  eliminate_pure_literals(cnf);
+  cnf.dump();
+}
+
 TEST(DPLL, Solve) {
-  CNF cnf({{1, 2, 3}, {-1, 2, 3}});
+  CNF cnf({{1, 2, 3}, {1, -2, -3}});
   solve(cnf);
 }
 

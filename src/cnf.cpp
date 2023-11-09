@@ -6,6 +6,7 @@ module;
 #include <stdexcept>
 #include <tuple>
 #include <cstdint>
+#include <algorithm>
 #include <unordered_map>
 
 export module cnf;
@@ -63,6 +64,10 @@ public:
       }
     }
     throw std::runtime_error("Could not select literal.");
+  }
+
+  std::vector<clause_t>::iterator removeClausesWithPureLiteral(variable_id_t id) {
+    return clauses_.erase(std::remove_if(clauses_.begin(), clauses_.end(), [=](const clause_t& x) { return x.contains(id); }), clauses_.end());
   }
 
   std::vector<clause_t>::iterator eraseClause(std::vector<clause_t>::iterator it) {
