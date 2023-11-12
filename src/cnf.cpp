@@ -45,11 +45,10 @@ public:
 
   void set(variable_id_t variable_id, state new_state) {
     for (auto &clause: clauses_) {
-      if (!clause.contains(variable_id)) {
-        throw std::runtime_error("Attempting to insert set variable that does not exist.");
+      if (clause.contains(variable_id)) {
+        literal_t changed_variable = clause.at(variable_id);
+        clause.insert_or_assign(variable_id, std::make_pair(changed_variable.first, new_state));
       }
-      literal_t changed_variable = clause.at(variable_id);
-      clause.insert_or_assign(variable_id, std::make_pair(changed_variable.first, new_state));
     }
   }
 

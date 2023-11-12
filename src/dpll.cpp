@@ -76,6 +76,45 @@ export void eliminate_pure_literals(CNF& cnf) {
   }
 }
 
+bool check_assigned(clause_t& clause) {
+  for (auto literal: clause) {
+    if (literal.second.second == state::UNASSIGNED) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool is_literal_true(literal_t literal) {
+  if (literal.second == state::TRUE) {
+    return (literal.first > 0) ? true: false;
+  } else {
+    return (literal.first > 0) ? false: true;
+  }
+}
+
+bool is_clause_true(clause_t& clause) {
+  if (!check_assigned(clause)) {
+    return true;
+  }
+  for (auto literal: clause) {
+    if (is_literal_true(literal.second)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export bool detect_false_clauses(CNF& cnf) {
+  for (auto it = cnf.begin(), end = cnf.end(); it != end; ++it) {
+    clause_t clause = *it;
+    if (!is_clause_true(clause)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 
 // Solving using basic DPLL algorithm.
 export std::optional<std::vector<bool>> solve(CNF& cnf) {
@@ -85,6 +124,8 @@ export std::optional<std::vector<bool>> solve(CNF& cnf) {
   unit_propagate(cnf);
   // Step 3: pure literal elimination
   eliminate_pure_literals(cnf);
+  // Step 4: check if any of the remaining clauses are empty
+  detect_false_clauses(cnf);
   cnf.dump();
   return std::nullopt;
 }

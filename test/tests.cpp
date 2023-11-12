@@ -65,6 +65,33 @@ TEST(DPLL, PureLiteralEliminationIncomplete) {
   cnf.dump();
 }
 
+TEST (DPLL, ClauseAllAssigned) {
+  CNF cnf({{1, 2, 3}, {4, 5, 6}});
+  cnf.set(1, state::TRUE);
+  cnf.set(2, state::TRUE);
+  cnf.set(3, state::TRUE);
+  ASSERT_FALSE(detect_false_clauses(cnf));
+  cnf.dump();
+}
+
+TEST (DPLL, CheckFalseClauses) {
+  CNF cnf({{1, 2, 3}, {4, 5, 6}});
+  cnf.set(1, state::FALSE);
+  cnf.set(2, state::FALSE);
+  cnf.set(3, state::FALSE);
+  ASSERT_TRUE(detect_false_clauses(cnf));
+  cnf.dump();
+}
+
+TEST(DPLL, CheckFalseClausesWithNegatives) {
+  CNF cnf({{-1, -2, -3}, {4, 5, 6}});
+  cnf.set(1, state::TRUE);
+  cnf.set(2, state::TRUE);
+  cnf.set(3, state::TRUE);
+  ASSERT_TRUE(detect_false_clauses(cnf));
+  cnf.dump();
+}
+
 TEST(DPLL, Solve) {
   CNF cnf({{1, 2, 3}, {1, -2, -3}});
   solve(cnf);
