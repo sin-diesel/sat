@@ -94,6 +94,13 @@ TEST(DPLL, CheckFalseClausesWithNegatives) {
 
 TEST(DPLL, Solve) {
   CNF cnf({{1, 2, 3}, {1, -2, -3}});
+  select_literal(cnf, state::TRUE);
+  ASSERT_TRUE(solve(cnf));
+}
+
+TEST(DPLL, SolveLarge) {
+  CNF cnf({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {-1, -4, 7}});
+  select_literal(cnf, state::TRUE);
   solve(cnf);
 }
 
@@ -101,3 +108,4 @@ int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+
