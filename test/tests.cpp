@@ -56,14 +56,17 @@ TEST(DPLL, PolarLiteral) {
 TEST(DPLL, PureLiteralElimination) {
   CNF cnf({{1, 2, 3}, {1, -2, -3}});
   eliminate_pure_literals(cnf);
+  ASSERT_EQ(cnf.size(), 0);
   cnf.dump();
 }
 
-TEST(DPLL, PureLiteralEliminationIncomplete) {
+TEST(DPLL, PureLiteralEliminationIncomplete2) {
   CNF cnf({{1, 2, 3}, {1, -2, -3}, {4, 2, 3}});
   eliminate_pure_literals(cnf);
+  ASSERT_EQ(cnf.size(), 0);
   cnf.dump();
 }
+
 
 TEST (DPLL, ClauseAllAssigned) {
   CNF cnf({{1, 2, 3}, {4, 5, 6}});

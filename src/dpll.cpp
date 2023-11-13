@@ -76,6 +76,7 @@ export void eliminate_pure_literals(CNF& cnf) {
         checked_ids.push_back(literal.first);
         break;
       }
+      checked_ids.push_back(literal.first);
     }
   }
   cnf.removeEmptyClauses();
