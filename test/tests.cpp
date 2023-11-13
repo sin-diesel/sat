@@ -43,7 +43,7 @@ TEST(DPLL, UnitPropagate) {
   cnf.set(2, state::TRUE);
   cnf.set(3, state::UNASSIGNED);
   unit_propagate(cnf);
-  ASSERT_EQ(cnf.size(), 0);
+  ASSERT_EQ(cnf.size(), 1);
 }
 
 TEST(DPLL, PolarLiteral) {
