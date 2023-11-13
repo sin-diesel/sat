@@ -65,8 +65,20 @@ public:
     throw std::runtime_error("Could not select literal.");
   }
 
-  std::vector<clause_t>::iterator removeClausesWithPureLiteral(variable_id_t id) {
-    return clauses_.erase(std::remove_if(clauses_.begin(), clauses_.end(), [=](const clause_t& x) { return x.contains(id); }), clauses_.end());
+  void markEmpty(variable_id_t id) {
+    for (auto it = clauses_.begin(), end = clauses_.end(); it != end; ++it) {
+      if ((*it).contains(id)) {
+        (*it).clear();
+      }
+    }
+  }
+
+  void removeEmptyClauses() {
+    for (auto it = clauses_.begin(), end = clauses_.end(); it != end; ++it) {
+      if ((*it).size() == 0) {
+        it = clauses_.erase(it);
+      }
+    }
   }
 
   std::vector<clause_t>::iterator eraseClause(std::vector<clause_t>::iterator it) {

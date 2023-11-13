@@ -1,5 +1,6 @@
 module;
 
+#include <algorithm>
 #include <optional>
 #include <vector>
 #include <cstdint>
@@ -66,15 +67,18 @@ export bool is_literal_polar(CNF& cnf, variable_id_t id) {
 }
 
 export void eliminate_pure_literals(CNF& cnf) {
+  std::vector<variable_id_t> checked_ids;
   for (auto it = cnf.begin(), end = cnf.end(); it != end; ++it) {
     clause_t clause = *it;
     for (auto &literal: clause) {
-      if (is_literal_polar(cnf, literal.first)) {
-        it = cnf.removeClausesWithPureLiteral(literal.first);
+      if (is_literal_polar(cnf, literal.first) && (std::find(checked_ids.begin(), checked_ids.end(), literal.first) == checked_ids.end())) {
+        cnf.markEmpty(literal.first);
+        checked_ids.push_back(literal.first);
         break;
       }
     }
   }
+  cnf.removeEmptyClauses();
 }
 
 bool check_assigned(clause_t& clause) {
