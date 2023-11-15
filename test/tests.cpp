@@ -43,7 +43,8 @@ TEST(DPLL, UnitPropagate) {
   cnf.set(2, state::TRUE);
   cnf.set(3, state::UNASSIGNED);
   unit_propagate(cnf);
-  ASSERT_EQ(cnf.size(), 1);
+  cnf.removeAssignedClauses();
+  ASSERT_EQ(cnf.size(), 0);
 }
 
 TEST(DPLL, PolarLiteral) {
@@ -97,14 +98,23 @@ TEST(DPLL, CheckFalseClausesWithNegatives) {
 
 TEST(DPLL, Solve) {
   CNF cnf({{1, 2, 3}, {1, -2, -3}});
-  select_literal(cnf, state::TRUE);
+  variable_id_t id = cnf.select();
+  cnf.set(id, state::TRUE);
   ASSERT_TRUE(solve(cnf));
 }
 
 TEST(DPLL, SolveLarge) {
   CNF cnf({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {-1, -4, 7}});
-  select_literal(cnf, state::TRUE);
-  solve(cnf);
+  variable_id_t id = cnf.select();
+  cnf.set(id, state::TRUE);
+  ASSERT_TRUE(solve(cnf));
+}
+
+TEST(DPLL, Solve2) {
+  CNF cnf({{1, 2, 3}, {1, 2, -3}, {1, -2, 3}, {1, -2, -3}, {-1, 2, 3}, {-1, 2, -3}, {-1, -2, 3}});
+  variable_id_t id = cnf.select();
+  cnf.set(id, state::TRUE);
+  ASSERT_TRUE(solve(cnf));
 }
 
 int main(int argc, char** argv) {

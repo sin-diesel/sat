@@ -38,6 +38,16 @@ bool valid(const cnf_t cnf) {
   return true;
 }
 
+export bool check_assigned(clause_t& clause) {
+  for (auto literal: clause) {
+    if (literal.second.second == state::UNASSIGNED) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
 export class CNF {
   std::vector<clause_t> clauses_;
 public:
@@ -76,6 +86,14 @@ public:
   void removeEmptyClauses() {
     for (auto it = clauses_.begin(), end = clauses_.end(); it != end; ++it) {
       if ((*it).size() == 0) {
+        it = clauses_.erase(it);
+      }
+    }
+  }
+
+  void removeAssignedClauses() {
+    for (auto it = clauses_.begin(), end = clauses_.end(); it != end; ++it) {
+      if (check_assigned(*it)) {
         it = clauses_.erase(it);
       }
     }

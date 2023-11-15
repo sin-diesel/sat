@@ -11,11 +11,6 @@ export module dpll;
 
 namespace sat {
 
-export void select_literal(CNF& cnf, state new_state) {
-  variable_id_t selected_id = cnf.select();
-  cnf.set(selected_id, new_state);
-}
-
 export std::optional<variable_id_t> get_propagated_literal(const clause_t &clause) {
   unsigned unassigned_literals = 0;
   variable_id_t candidate;
@@ -42,7 +37,6 @@ export void unit_propagate(CNF& cnf) {
           cnf.set(entry.first, state::TRUE);
         }
       }
-      it = cnf.eraseClause(it);
     }
   }
 }
@@ -82,15 +76,6 @@ export void eliminate_pure_literals(CNF& cnf) {
   cnf.removeEmptyClauses();
 }
 
-bool check_assigned(clause_t& clause) {
-  for (auto literal: clause) {
-    if (literal.second.second == state::UNASSIGNED) {
-      return false;
-    }
-  }
-  return true;
-}
-
 bool is_literal_true(literal_t literal) {
   if (literal.second == state::TRUE) {
     return (literal.first > 0) ? true: false;
@@ -124,13 +109,14 @@ export bool detect_false_clauses(CNF& cnf) {
 
 // Solving using basic DPLL algorithm.
 export bool solve(CNF& cnf) {
-  cnf.dump();
   // Step 1: unit propagation
   unit_propagate(cnf);
-  cnf.dump();
+  if (detect_false_clauses(cnf)) {
+    return false;
+  }
+  cnf.removeAssignedClauses();
   // Step 2: pure literal elimination
   eliminate_pure_literals(cnf);
-  cnf.dump();
 
   // Stopping conditions
   if (cnf.size() == 0) {
@@ -140,11 +126,14 @@ export bool solve(CNF& cnf) {
     return false;
   }
   // Step 3: set another literal to true / false and to recursive search
-  select_literal(cnf, state::TRUE);
-  bool try_true = solve(cnf);
-  select_literal(cnf, state::FALSE);
-  bool try_false = solve(cnf);
-  return try_true || try_false;
+  variable_id_t literal_id = cnf.select();
+  cnf.set(literal_id, state::TRUE);
+  bool solution_result = solve(cnf);
+  if (!solution_result) {
+    cnf.set(literal_id, state::FALSE);
+    solution_result = solve(cnf);
+  }
+  return solution_result;
 }
 
 } // end namespace sat
