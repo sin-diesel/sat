@@ -117,8 +117,21 @@ TEST(DPLL, Solve2) {
   ASSERT_TRUE(solve(cnf));
 }
 
+TEST(DPLL, SolveFalse) {
+  CNF cnf({{1, 2, 3}, {1, 2, -3}, {1, -2, 3}, {1, -2, -3}, {-1, 2, 3}, {-1, 2, -3}, {-1, -2, 3}, {-1, -2, -3}});
+  variable_id_t id = cnf.select();
+  cnf.set(id, state::TRUE);
+  bool solution_result = solve(cnf);
+  if (!solution_result) {
+    cnf.set(id, state::FALSE);
+  }
+  solution_result = solve(cnf);
+  ASSERT_FALSE(solution_result);
+}
+
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+
 
