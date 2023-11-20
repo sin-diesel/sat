@@ -10,21 +10,21 @@ project(sat_solver CXX)
 
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
- 
-add_library(sat)
-target_sources(sat
+
+add_library(sat_runtime)
+target_sources(sat_runtime
     PUBLIC
         FILE_SET CXX_MODULES FILES
-        src/cnf.cpp
-        src/dpll.cpp
+        src/runtime/cnf.cpp
+        src/runtime/dpll.cpp
 )
 
-add_executable(sat_solver main.cpp)
-target_link_libraries(sat_solver PRIVATE sat)
+add_executable(satr main.cpp)
+target_link_libraries(satr PRIVATE sat_runtime)
 
-add_executable(test test/tests.cpp)
-target_link_libraries(test PUBLIC sat)
-target_link_libraries(test PRIVATE ${GTEST_LIBRARIES} pthread)
+add_executable(test_runtime test/tests.cpp)
+target_link_libraries(test_runtime PUBLIC sat_runtime)
+target_link_libraries(test_runtime PRIVATE ${GTEST_LIBRARIES} pthread)
 
 
 # set(TESTS_DIR test)
