@@ -2,7 +2,6 @@ import sys
 import argparse
 import subprocess
 from util.driver.clang import invoke_clang
-from util.driver.gcc import invoke_gcc
 
 argument_parser = argparse.ArgumentParser(prog='driver')
 argument_parser.add_argument('--module_map', default=None)
@@ -20,10 +19,7 @@ def main():
     compiler_args = compiler_command[1:]
 
     compiler_version = str(subprocess.check_output([compiler, '-v'], stderr=subprocess.STDOUT))
-    if 'clang' in compiler_version:
-        invoke_clang(driver_args, compiler, compiler_args)
-    else:
-        invoke_gcc(driver_args, compiler, compiler_args)
+    invoke_clang(driver_args, "clang", compiler_args)
 
 
 if __name__ == "__main__":
