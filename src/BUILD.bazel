@@ -1,0 +1,29 @@
+load("//cc_module:defs.bzl", "cc_module")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_module(
+  name = "cnf",
+  src = "cnf.cpp",
+  copts = [
+        "-fmodules",
+        "-fbuiltin-module-map",
+        "-stdlib=libc++",
+        "-std=c++20",
+        "-fmodules-ts",
+  ],
+)
+
+cc_module(
+  name = "dpll",
+  src = "dpll.cpp",
+  copts = [
+        "-fmodules",
+        "-fbuiltin-module-map",
+        "-stdlib=libc++",
+        "-std=c++20",
+        "-fmodules-ts",
+  ],
+)
+
+
