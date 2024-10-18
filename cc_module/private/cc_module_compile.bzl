@@ -30,14 +30,15 @@ def make_source(ctx, src, module_info):
   )
   return src
 
-def cc_module_compile_action(ctx, src, compilation_context, module_info=None, is_interface=False, is_system=False):
+def cc_module_compile_action(ctx, src, compilation_context, module_info=None, is_interface=True, is_system=False):
     cc_toolchain = find_cpp_toolchain(ctx)
 
     if not src:
       src = make_source(ctx, src, module_info)
     obj_name = replace_extension(src, "o")
     if is_interface:
-      obj_name = "cc_module_interface-" + obj_name
+      # obj_name = "cc_module_interface-" + obj_name
+      pass
     obj = ctx.actions.declare_file(obj_name)
 
     feature_configuration = cc_common.configure_features(

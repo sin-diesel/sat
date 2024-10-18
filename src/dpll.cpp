@@ -4,6 +4,7 @@ module;
 #include <optional>
 #include <vector>
 #include <cstdint>
+#include <unordered_map>
 
 import cnf;
 

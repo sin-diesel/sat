@@ -39,12 +39,13 @@ def make_interface_args(compiler_args):
 
 def make_stub_object(driver_args, compiler):
     empty_src = 'empty_src.cc'
-    open(empty_src, 'a').close()
+    #open(empty_src, 'a').close()
     args = [
             '-o', driver_args.object_out,
             '-c', empty_src,
     ]
-    os.execv(compiler, [compiler] + args)
+    print(args)
+    os.execv("clang", ["clang"] + args)
 
 def query_arguments(driver_args, compiler, interface_args):
     additional_args = [
@@ -108,6 +109,11 @@ def invoke_clang(driver_args, compiler, compiler_args):
     # compile the object file
     if driver_args.object_out:
         if driver_args.module_interface:
-            return make_stub_object(driver_args, compiler)
+            #return make_stub_object(driver_args, compiler)
+            pass
         args = [compiler] + compiler_args + ['-o', driver_args.object_out]
-        os.execv(compiler, [compiler] + compiler_args + ['-o', driver_args.object_out])
+        print(compiler)
+        print(compiler_args)
+        print(driver_args.object_out)
+        compiler_args.remove("@clang-module-map")
+        os.execvp(compiler, [compiler] + compiler_args + ['-o', driver_args.object_out])

@@ -19,6 +19,7 @@ def main():
     compiler_args = compiler_command[1:]
 
     compiler_version = str(subprocess.check_output([compiler, '-v'], stderr=subprocess.STDOUT))
+    compiler_args.remove("-fno-canonical-system-headers")
     invoke_clang(driver_args, "clang", compiler_args)
 
 
